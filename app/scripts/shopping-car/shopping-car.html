@@ -1,0 +1,44 @@
+<div class="jumbotron">
+
+  <h3 class="text-left">Mi carrito de compras <span class="glyphicon glyphicon-shopping-cart"></span></h3>
+  <hr>
+
+  <div class="form-group col-md-12" ng-show="vm.myShoppingCar.length > 0">
+      <span class="badge badge-info pull-right">Productos {{vm.myShoppingCar.length}}</span>
+  </div>
+
+  <div class="alert alert-info" ng-show="vm.myShoppingCar.length == 0">
+      <strong>Actualmente no has agregado productos al carrito de compras, agrega productos desde el menú superior.</strong>
+  </div>
+
+  <table class="table" ng-show="vm.myShoppingCar.length > 0">
+    <thead>
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">Precio por Unidad</th>
+        <th scope="col">Cantidad total</th>
+        <th scope="col">Cantidad disponible</th>
+        <th scope="col">Agregados</th>
+        <th width="30%" colspan="2" scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="product in vm.myShoppingCar">
+        <td>{{product.name}}</td>
+        <td>{{product.price}}</td>
+        <td>{{product.initialQuantity}}</td>
+        <td>{{product.quantity}}</td>
+        <td>{{product.quantityAdded}}</td>
+        <td>
+          <input ng-if="product.available" type="text" ng-model="product.quantityToAdd" class="text-center form-control" placeholder="Cantidad">
+        </td>
+        <td>
+          <span title="Actualizar producto" ng-click="vm.updateQuantity(product)" class="pointer glyphicon glyphicon-refresh shopping-icon text-success"></span>
+          <span title="Eliminar del carrito" ng-click="vm.deleteFromShoppingCar(product)" class="pointer glyphicon glyphicon-remove shopping-icon text-danger"></span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button ng-show="vm.myShoppingCar.length > 0" ng-click="vm.finishShopping()" type="button" class="btn btn-success btn-lg btn-block">Realizar compra <span class="glyphicon glyphicon-ok"></span></button>
+  <button ng-show="vm.myShoppingCar.length > 0" ng-click="vm.discardShopping()" type="button" class="btn btn-warning btn-lg btn-block">Cancelar compra <span class="glyphicon glyphicon-remove"></span></button>
+</div>

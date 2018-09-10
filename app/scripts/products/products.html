@@ -1,0 +1,94 @@
+<div class="jumbotron">
+
+  <h3 class="text-left">Productos de la categoría: <strong>{{vm.categoryName}}</strong></h3>
+  <hr>
+  
+  <div class="form-group col-md-12">
+    <input type="text" ng-model="vm.filterByName" class="form-control text-center" placeholder="Búsqueda por nombre de producto">
+  </div>
+
+  <div class="form-group col-md-2">
+    <label>Disponibilidad</label>
+    <select class="form-control" ng-model="vm.filterByAvailable">
+      <option selected value="">Todos</option>
+      <option value="true">Disponibles</option>
+      <option value="false">No disponibles</option>
+    </select>
+  </div>
+  <div class="form-group col-md-2">
+    <label>Cantidad</label>
+    <select class="form-control" ng-model="vm.filterByQuantity" ng-options="item.value as item.description for item in vm.listQuantity">
+    </select>
+  </div>
+<!--
+  <div class="form-group col-md-2">
+    <label>Precio mínimo</label>
+    <input ng-blur="vm." ng-model="vm.minPrice" type="text" class="form-control col-md-2 text-center">
+  </div>
+  <div class="form-group col-md-2">
+    <label>Precio máximo</label>
+    <input ng-model="vm.maxPrice" type="text" class="form-control col-md-2 text-center">
+  </div>
+-->
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Nombre</th>
+        <th scope="col">
+          <span ng-click="vm.sortBy('price')" class="pointer">Precio por Unidad</span>
+          <span ng-show="vm.propertyName == 'price'" class="glyphicon" ng-class="vm.reverse ? 'glyphicon-chevron-down' : 'glyphicon-chevron-up'"></span>
+        </th>
+        <th scope="col">
+          <span ng-click="vm.sortBy('quantity')" class="pointer">Cantidad disponible</span>
+          <span ng-show="vm.propertyName == 'quantity'" class="glyphicon" ng-class="vm.reverse ? 'glyphicon-chevron-down' : 'glyphicon-chevron-up'"></span>
+        </th>
+        <th scope="col">
+          <span ng-click="vm.sortBy('available')" class="pointer">Disponible</span>
+          <span ng-show="vm.propertyName == 'available'" class="glyphicon" ng-class="vm.reverse ? 'glyphicon-chevron-down' : 'glyphicon-chevron-up'"></span>
+        </th>
+        <th width="30%" colspan="2" scope="col">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- <tr ng-repeat="product in vm.products | orderBy:vm.sortType:vm.sortReverse"> -->
+      <tr ng-repeat="product in vm.products | orderBy:vm.propertyName:vm.reverse | filter:{quantity: vm.filterByQuantity, available: vm.filterByAvailable, price : vm.filterByPrice, name : vm.filterByName}">
+        <td>{{product.name}}</td>
+        <td>{{product.price}}</td>
+        <td>{{product.quantity}}</td>
+        <td>
+          {{vm.isProductAvailable(product)}}
+        </td>
+        <td>
+          <input ng-if="product.available" type="text" ng-model="product.quantityToAdd" class="text-center form-control" placeholder="Cantidad">
+          <!--
+                  <div ng-if="product.available" class="form-group col-md-12">
+                    <div class="input-group">
+                        <div class="input-group-addon">
+                            <span class="input-group-text">
+                              <span ng-click="vm.sumQuantity(product)" 
+                                class="pointer glyphicon glyphicon-plus"></span>
+                            </span>
+                          </div>
+                        <input type="text" ng-model="product.quantityToAdd" 
+                          class="text-center form-control" placeholder="Cantidad">
+                        <div class="input-group-addon">
+                          <span class="input-group-text">
+                              <span ng-click="vm.minusQuantity(product)" 
+                                class="pointer glyphicon glyphicon-minus"></span>
+                          </span>
+                        </div>
+                    </div>
+                  </div>
+                  -->
+        </td>
+        <!-- <td ng-if="!product.available">
+                  Producto no disponible
+              </td> -->
+        <td>
+          <span title="Agregar al carrito" ng-if="product.available" ng-click="vm.addToShoppingCar(product)" class="pointer glyphicon glyphicon-shopping-cart shopping-icon"></span>
+          <span ng-if="product.available" class="badge badge-info pull-right total-in-car">{{product.quantityAdded}}</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

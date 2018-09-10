@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+    <!-- build:css(.) styles/vendor.css -->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+    <!-- endbower -->
+    <!-- endbuild -->
+    <!-- build:css(.tmp) styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+
+    <style>
+      .dropdown-submenu {
+          position: relative;
+      }
+      
+      .dropdown-submenu .dropdown-menu {
+          top: 0;
+          left: 100%;
+          margin-top: -1px;
+      }
+      </style>
+  </head>
+  <body ng-app="elBaratonApp" >
+    <!--[if lte IE 8]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <!-- Add your site or application content here -->
+
+    <span ng-include=" 'scripts/nav-bar/nav-bar.html' "></span>
+    
+    <div class="container container-body">
+    <div ng-view=""></div>
+    </div>
+
+    <div class="footer">
+      <div class="container">
+        <p><span class="glyphicon glyphicon-heart"></span> Juan Camilo Velásquez Vanegas</p>
+      </div>
+    </div>
+
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+     <script>
+       !function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
+       (A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
+       r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
+       }(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+       ga('create', 'UA-XXXXX-X');
+       ga('send', 'pageview');
+    </script>
+
+    <!-- build:js(.) scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/angular-animate/angular-animate.js"></script>
+    <script src="bower_components/angular-aria/angular-aria.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="scripts/app.js"></script>
+    <script src="scripts/controllers/main.js"></script>
+    <script src="scripts/controllers/about.js"></script>
+    <script src="scripts/nav-bar/nav-bar.js"></script>
+    <script src="scripts/products/products.js"></script>
+    <script src="scripts/shopping-car/shopping-car.js"></script>
+    <script src="scripts/successful-purchase/successful-purchase.js"></script>
+
+    <!--Services-->
+    <script src="scripts/service/DataService.js"></script>
+    <script src="scripts/service/StorageService.js"></script>
+    <script src="scripts/service/ProductService.js"></script>
+    <!-- <script src="scripts/index/index.js"></script> -->
+    <!-- endbuild -->
+
+</body>
+</html>
