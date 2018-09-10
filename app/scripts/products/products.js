@@ -10,7 +10,7 @@ var PRODUCTS_STOCK = 'productsInStock';
  * Controller of the elBaratonApp
  */
 angular.module('elBaratonApp')
-  .controller('ProductsCtrl', function ($rootScope, StorageService, ProductService, $location) {
+  .controller('ProductsCtrl', function ($rootScope, StorageService, ProductService, $location, Notification) {
     var vm = this;
 
     //Functions
@@ -60,12 +60,12 @@ angular.module('elBaratonApp')
 
     function addToShoppingCar(product){
       if(!product.quantityToAdd || !product.quantity || isNaN(product.quantityToAdd)){
-        alert("Debe ingresar una cantidad válida para el producto");
+        Notification.warning("Debe ingresar una cantidad válida para el producto");
         return;
       }
       if(product.quantityToAdd > product.quantity ||
-         product.quantityToAdd <= 0){
-        alert("Las cantidades no deben exceder la cantidad del producto en stock");
+        product.quantityToAdd <= 0){
+        Notification.warning("Las cantidades no deben exceder la cantidad del producto en stock");
         return;
       }
       var productsInStock = StorageService.get(PRODUCTS_STOCK);
@@ -94,7 +94,7 @@ angular.module('elBaratonApp')
 
       StorageService.save(productsInStock, PRODUCTS_STOCK);
       $rootScope.$broadcast(PRODUCTS_STOCK, productsInStock);
-      alert("Producto agregado al carrito");
+      Notification.success("El producto ha sido agregado al carro de compras con éxito");
     }
 
     function sortBy(propertyName) {
@@ -112,7 +112,7 @@ angular.module('elBaratonApp')
 
       vm.products = productsByCategory.products;
       vm.categoryName = productsByCategory.parentLevel.name + " " + productsByCategory.category.name;
-      
+
       obtainProductsInShoppingCar();
       calculateFilters();
     }

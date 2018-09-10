@@ -10,7 +10,7 @@ var PRODUCTS_STOCK = 'productsInStock';
  * Controller of the elBaratonApp
  */
 angular.module('elBaratonApp')
-  .controller('ShoppingCarCtrl', function ($location, $rootScope, DataService, StorageService) {
+  .controller('ShoppingCarCtrl', function ($location, $rootScope, DataService, StorageService, Notification) {
     var vm = this;
 
     //Functions
@@ -24,19 +24,19 @@ angular.module('elBaratonApp')
 
     function updateQuantity(product){
       if(!product.quantityToAdd || !product.initialQuantity || isNaN(product.quantityToAdd)){
-        alert("Debe ingresar una cantidad válida para el producto");
+        Notification.warning("Debe ingresar una cantidad válida para el producto");
         return;
       }
       if(product.quantityToAdd > product.initialQuantity ||
          product.quantityToAdd <= 0){
-        alert("Las cantidades no deben exceder la cantidad del producto en stock");
+        Notification.warning("Las cantidades no deben exceder la cantidad del producto en stock");
         return;
       }
       product.quantity = product.initialQuantity - parseInt(product.quantityToAdd);
       product.quantityAdded = product.quantityToAdd;
 
       StorageService.save(vm.myShoppingCar, PRODUCTS_STOCK);
-      alert("Producto actualizado con éxito");
+      Notification.success("Producto actualizado con éxito");
     }
 
     function deleteFromShoppingCar(product){
@@ -46,7 +46,7 @@ angular.module('elBaratonApp')
       }
       StorageService.save(vm.myShoppingCar, PRODUCTS_STOCK);
       $rootScope.$broadcast(PRODUCTS_STOCK, vm.myShoppingCar);
-      alert("Producto eliminado del carrito");
+      Notification.success("Producto eliminado del carrito");
     }
 
     function finishShopping(){
@@ -54,7 +54,7 @@ angular.module('elBaratonApp')
       StorageService.clear();
       $rootScope.$broadcast(PRODUCTS_STOCK, vm.myShoppingCar);
       $location.path("successful-purchase");
-      alert("La compra se ha realizado con éxito");
+      Notification.success("La compra se ha realizado con éxito");
     }
 
     function discardShopping(){
@@ -62,7 +62,7 @@ angular.module('elBaratonApp')
       StorageService.clear();
       $rootScope.$broadcast(PRODUCTS_STOCK, vm.myShoppingCar);
       $location.path("/");
-      alert("Los productos se descartaron con éxito");
+      Notification.success("Los productos se descartaron con éxito");
     }
 
     function main(){
