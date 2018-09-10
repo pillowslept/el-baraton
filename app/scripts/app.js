@@ -33,27 +33,22 @@ angular
 
     $routeProvider
       .when('/', {
-        templateUrl: 'views/main.html',
+        templateUrl: 'scripts/controllers/main/main.html',
         controller: 'MainCtrl',
         controllerAs: 'main'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'about'
-      })
       .when('/products', {
-        templateUrl: 'scripts/products/products.html',
+        templateUrl: 'scripts/controllers/products/products.html',
         controller: 'ProductsCtrl',
         controllerAs: "vm"
       })
       .when('/shopping-car', {
-        templateUrl: 'scripts/shopping-car/shopping-car.html',
+        templateUrl: 'scripts/controllers/shopping-car/shopping-car.html',
         controller: 'ShoppingCarCtrl',
         controllerAs: "vm"
       })
       .when('/successful-purchase', {
-        templateUrl: 'scripts/successful-purchase/successful-purchase.html',
+        templateUrl: 'scripts/controllers/successful-purchase/successful-purchase.html',
         controller: 'SuccessfulPurchaseCtrl',
         controllerAs: "vm"
       })
