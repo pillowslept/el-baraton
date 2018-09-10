@@ -17,9 +17,20 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'ui-notification'
   ])
-  .config(function ($routeProvider, $locationProvider) {
+  .config(function ($routeProvider, NotificationProvider) {
+    NotificationProvider.setOptions({
+      delay: 5000,
+      startTop: 20,
+      startRight: 10,
+      verticalSpacing: 20,
+      horizontalSpacing: 20,
+      positionX: 'right',
+      positionY: 'top'
+  });
+
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
@@ -49,5 +60,4 @@ angular
       .otherwise({
         redirectTo: '/'
       });
-      //$locationProvider.html5Mode(true);
   });
