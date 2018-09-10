@@ -11,14 +11,16 @@ angular.module('elBaratonApp')
   .service('DataService', function ($http, $q) {
     var vm = this;
 
-    vm.loadFromJson = function (url){
+    vm.loadFromJson = loadFromJson;
+
+    function loadFromJson(url) {
       var promise = $q.defer();
-      $http.get(url).then(function(response){
+      $http.get(url).then(function (response) {
         promise.resolve(response);
-      },function(error){
+      }, function (error) {
         promise.reject(error);
       });
       return promise.promise;
-    };
-    
-});
+    }
+
+  });

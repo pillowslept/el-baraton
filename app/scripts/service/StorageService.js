@@ -11,19 +11,19 @@ angular.module('elBaratonApp')
   .service('StorageService', function ($window) {
     var vm = this;
 
-    vm.get = function (key){
+    vm.get = function (key) {
       var storage = $window.localStorage[key]
-      if(!!storage){
+      if (!!storage) {
         storage = JSON.parse(storage);
       }
       return storage;
     };
 
-    vm.save = function (storage, key){
+    vm.save = function (storage, key) {
       $window.localStorage[key] = JSON.stringify(storage);
     };
-    
-    vm.clear = function (){
+
+    vm.clear = function () {
       $window.localStorage.clear();
     };
-});
+  });

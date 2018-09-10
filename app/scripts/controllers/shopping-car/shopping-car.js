@@ -27,16 +27,19 @@ angular.module('elBaratonApp')
         Notification.warning("Debe ingresar una cantidad válida para el producto");
         return;
       }
-      if(product.quantityToAdd > product.initialQuantity ||
-         product.quantityToAdd <= 0){
-        Notification.warning("Las cantidades no deben exceder la cantidad del producto en stock");
+      if(product.quantityToAdd > product.initialQuantity){
+        Notification.warning("Las cantidades de los productos no deben exceder las existencias");
         return;
       }
+      if(product.quantityToAdd <= 0){
+       Notification.warning("Las cantidades de los productos no deben ser negativas");
+       return;
+     }
       product.quantity = product.initialQuantity - parseInt(product.quantityToAdd);
       product.quantityAdded = product.quantityToAdd;
 
       StorageService.save(vm.myShoppingCar, PRODUCTS_STOCK);
-      Notification.success("Producto actualizado con éxito");
+      Notification.success("El producto ha sido actualizado con éxito");
     }
 
     function deleteFromShoppingCar(product){
@@ -46,7 +49,7 @@ angular.module('elBaratonApp')
       }
       StorageService.save(vm.myShoppingCar, PRODUCTS_STOCK);
       $rootScope.$broadcast(PRODUCTS_STOCK, vm.myShoppingCar);
-      Notification.success("Producto eliminado del carrito");
+      Notification.success("El producto ha sido eliminado con éxito");
     }
 
     function finishShopping(){
@@ -62,7 +65,7 @@ angular.module('elBaratonApp')
       StorageService.clear();
       $rootScope.$broadcast(PRODUCTS_STOCK, vm.myShoppingCar);
       $location.path("/");
-      Notification.success("Los productos se descartaron con éxito");
+      Notification.success("Los productos han sido descartados con éxito");
     }
 
     function main(){

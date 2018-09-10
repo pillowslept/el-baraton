@@ -20,6 +20,7 @@ angular.module('elBaratonApp')
     vm.totalProducts = 0;
     vm.itemsMenu = [];
 
+    //All products loaded
     var allProducts = [];
 
     function changeUrl(path) {

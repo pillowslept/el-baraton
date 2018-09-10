@@ -9,9 +9,7 @@
  */
 angular.module('elBaratonApp')
   .controller('MainCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+    var vm = this;
+
+    vm.message = "Gracias por elegirnos";
   });

@@ -1,14 +1,16 @@
 <div class="jumbotron">
 
-  <h3 class="text-left">Mi carrito de compras <span class="glyphicon glyphicon-shopping-cart"></span></h3>
+  <h3 class="text-left">Mi carrito de compras
+    <span class="glyphicon glyphicon-shopping-cart"></span>
+  </h3>
   <hr>
 
   <div class="form-group col-md-12" ng-show="vm.myShoppingCar.length > 0">
-      <span class="badge badge-info pull-right">Productos {{vm.myShoppingCar.length}}</span>
+    <span class="badge badge-info pull-right">Productos {{vm.myShoppingCar.length}}</span>
   </div>
 
   <div class="alert alert-info" ng-show="vm.myShoppingCar.length == 0">
-      <strong>Actualmente no has agregado productos al carrito de compras, agrega productos desde el menú superior.</strong>
+    <strong>Actualmente no se han agregado productos al carrito de compras, agrega productos desde el menú superior.</strong>
   </div>
 
   <table class="table" ng-show="vm.myShoppingCar.length > 0">
@@ -39,6 +41,10 @@
       </tr>
     </tbody>
   </table>
-  <button ng-show="vm.myShoppingCar.length > 0" ng-click="vm.finishShopping()" type="button" class="btn btn-success btn-lg btn-block">Realizar compra <span class="glyphicon glyphicon-ok"></span></button>
-  <button ng-show="vm.myShoppingCar.length > 0" ng-click="vm.discardShopping()" type="button" class="btn btn-warning btn-lg btn-block">Cancelar compra <span class="glyphicon glyphicon-remove"></span></button>
+  <button ng-show="vm.myShoppingCar.length > 0" ng-click="vm.finishShopping()" type="button" class="btn btn-success btn-lg btn-block">Realizar compra
+    <span class="glyphicon glyphicon-ok"></span>
+  </button>
+  <button ng-show="vm.myShoppingCar.length > 0" ng-click="vm.discardShopping()" type="button" class="btn btn-warning btn-lg btn-block">Cancelar compra
+    <span class="glyphicon glyphicon-remove"></span>
+  </button>
 </div>

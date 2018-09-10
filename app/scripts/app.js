@@ -35,7 +35,8 @@ angular
       .when('/', {
         templateUrl: 'scripts/controllers/main/main.html',
         controller: 'MainCtrl',
-        controllerAs: 'main'
+        controllerAs: 'main',
+        controllerAs: "vm"
       })
       .when('/products', {
         templateUrl: 'scripts/controllers/products/products.html',
