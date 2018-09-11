@@ -51,6 +51,7 @@ angular.module('elBaratonApp')
         vm.products = initialProducts;
       }
       vm.priceFilterUsed = false;
+      buildQuantityFilter();
     }
 
     function isProductAvailable(product) {
