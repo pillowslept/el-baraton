@@ -1,38 +1,66 @@
 <div class="jumbotron">
 
-  <h3 class="text-left">Productos de la categoría: <strong>{{vm.categoryName}}</strong></h3>
+  <h3 class="text-left">Productos de la categoría:
+    <strong>{{vm.categoryName}}</strong>
+  </h3>
   <hr>
-  
-  <div class="form-group col-md-12">
-    <input type="text" ng-model="vm.filterByName" class="form-control text-center" placeholder="Búsqueda por nombre de producto">
+
+  <div class="row">
+    <div class="form-group col-md-12">
+      <input type="text" ng-model="vm.filterByName" class="form-control text-center" placeholder="Búsqueda por nombre de producto">
+    </div>
   </div>
 
-  <div class="form-group col-md-2">
-    <label>Disponibilidad</label>
-    <select class="form-control" ng-model="vm.filterByAvailable">
-      <option selected value="">Todos</option>
-      <option value="true">Disponibles</option>
-      <option value="false">No disponibles</option>
-    </select>
-  </div>
-  <div class="form-group col-md-2">
-    <label>Cantidad</label>
-    <select class="form-control" ng-model="vm.filterByQuantity" ng-options="item.value as item.description for item in vm.listQuantity">
-    </select>
+  <div class="panel-group" id="accordion">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title text-right pointer" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
+          Ver más filtros
+        </h4>
+      </div>
+      <div id="collapseOne" class="panel-collapse collapse panel-color">
+        <div class="panel-body">
+          <div class="row">
+            <div class="form-group col-md-2">
+              <label>Disponibilidad</label>
+              <select class="form-control" ng-model="vm.filterByAvailable">
+                <option selected value="">Todos</option>
+                <option value="true">Disponibles</option>
+                <option value="false">No disponibles</option>
+              </select>
+            </div>
+            <div class="form-group col-md-2">
+              <label>Cantidad</label>
+              <select class="form-control" ng-model="vm.filterByQuantity" ng-options="item.value as item.description for item in vm.listQuantity">
+              </select>
+            </div>
+            <div class="form-group col-md-2">
+              <label>Precio mínimo</label>
+              <input ng-readonly="vm.priceFilterUsed" ng-model="vm.minPrice" type="number" class="form-control col-md-2 text-center">
+            </div>
+            <div class="form-group col-md-2">
+              <label>Precio máximo</label>
+              <input ng-readonly="vm.priceFilterUsed" ng-model="vm.maxPrice" type="number" class="form-control col-md-2 text-center">
+            </div>
+
+            <div class="form-group col-md-2">
+              <label>Aplicar precios</label>
+              <button ng-disabled="vm.priceFilterUsed" type="button" ng-click="vm.filterByPrice()" class="btn btn-success form-control col-md-2">
+                <span class="pointer glyphicon glyphicon-ok"></span>
+              </button>
+            </div>
+            <div class="form-group col-md-2">
+              <label>Limpiar precios</label>
+              <button type="button" ng-click="vm.cleanFilters()" class="btn btn-info form-control col-md-2">
+                <span class="pointer glyphicon glyphicon-refresh"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="form-group col-md-2">
-    <label>Precio mínimo</label>
-    <input ng-model="vm.minPrice" type="text" class="form-control col-md-2 text-center">
-  </div>
-  <div class="form-group col-md-2">
-    <label>Precio máximo</label>
-    <input ng-model="vm.maxPrice" type="text" class="form-control col-md-2 text-center">
-  </div>
-  <div class="form-group col-md-2">
-    <button type="button" class="btn btn-success">Aplicar precios</button>
-  </div>
-  
   <table class="table">
     <thead>
       <tr>
@@ -53,7 +81,6 @@
       </tr>
     </thead>
     <tbody>
-      <!-- <tr ng-repeat="product in vm.products | orderBy:vm.sortType:vm.sortReverse"> -->
       <tr ng-repeat="product in vm.products | orderBy:vm.propertyName:vm.reverse | filter:{quantity: vm.filterByQuantity, available: vm.filterByAvailable, price : vm.filterByPrice, name : vm.filterByName}">
         <td>{{product.name}}</td>
         <td>{{product.price}}</td>
@@ -62,34 +89,12 @@
           {{vm.isProductAvailable(product)}}
         </td>
         <td>
-          <input ng-if="product.available" type="text" ng-model="product.quantityToAdd" class="text-center form-control" placeholder="Cantidad">
-          <!--
-                  <div ng-if="product.available" class="form-group col-md-12">
-                    <div class="input-group">
-                        <div class="input-group-addon">
-                            <span class="input-group-text">
-                              <span ng-click="vm.sumQuantity(product)" 
-                                class="pointer glyphicon glyphicon-plus"></span>
-                            </span>
-                          </div>
-                        <input type="text" ng-model="product.quantityToAdd" 
-                          class="text-center form-control" placeholder="Cantidad">
-                        <div class="input-group-addon">
-                          <span class="input-group-text">
-                              <span ng-click="vm.minusQuantity(product)" 
-                                class="pointer glyphicon glyphicon-minus"></span>
-                          </span>
-                        </div>
-                    </div>
-                  </div>
-                  -->
+          <span ng-if="vm.showSoldOut(product)">Producto agotado</span>
+          <input ng-if="vm.showActions(product)" type="number" ng-model="product.quantityToAdd" class="text-center form-control" placeholder="Cantidad">
         </td>
-        <!-- <td ng-if="!product.available">
-                  Producto no disponible
-              </td> -->
         <td>
-          <span title="Agregar al carrito" ng-if="product.available" ng-click="vm.addToShoppingCar(product)" class="pointer glyphicon glyphicon-shopping-cart shopping-icon"></span>
-          <span ng-if="product.available" class="badge badge-info pull-right total-in-car">{{product.quantityAdded}}</span>
+          <span title="Agregar al carrito" ng-if="vm.showActions(product)" ng-click="vm.addToShoppingCar(product)" class="pointer glyphicon glyphicon-shopping-cart shopping-icon"></span>
+          <span ng-if="product.available" title="Cantidad agregada" class="badge badge-info pull-right total-in-car">{{product.quantityAdded}}</span>
         </td>
       </tr>
     </tbody>

@@ -14,44 +14,43 @@ angular.module('elBaratonApp')
     var vm = this;
 
     //Functions
-    vm.minusQuantity = minusQuantity;
-    vm.sumQuantity = sumQuantity;
     vm.addToShoppingCar = addToShoppingCar;
     vm.isProductAvailable = isProductAvailable;
     vm.sortBy = sortBy;
+    vm.filterByPrice = filterByPrice;
+    vm.showActions = showActions;
+    vm.showSoldOut = showSoldOut;
+    vm.cleanFilters = cleanFilters;
     vm.filterByPrice = filterByPrice;
 
     //Filters
     vm.filterByQuantity = "";
     vm.filterByName = "";
+    vm.maxPrice = "";
+    vm.minPrice = "";
+    vm.priceFilterUsed = false;
 
-    //Filter by quantity
-    vm.quantityInStock = "";
-    vm.quantityStock = [];
-
-    //Order
+    //Order by property
     vm.reverse = false;
     vm.propertyName = "";
 
     //Products information
     vm.products = [];
+    var initialProducts = [];
+
+    //Products category name
     vm.categoryName = "";
 
     //Shopping Car
-    vm.myShoppingCar = [];
+    var myShoppingCar = [];
 
-    function minusQuantity(product) {
-      if (product.quantityToAdd <= 0) {
-        return;
+    function cleanFilters(){
+      vm.maxPrice = "";
+      vm.minPrice = "";
+      if(initialProducts.length > 0){
+        vm.products = initialProducts;
       }
-      product.quantityToAdd--;
-    }
-
-    function sumQuantity(product) {
-      if (product.quantityToAdd >= product.quantity) {
-        return;
-      }
-      product.quantityToAdd++;
+      vm.priceFilterUsed = false;
     }
 
     function isProductAvailable(product) {
@@ -73,19 +72,7 @@ angular.module('elBaratonApp')
       }
       var productsInStock = StorageService.get(PRODUCTS_STOCK);
       if (!!productsInStock) {
-        var found = false;
-        for (var i = 0, len = productsInStock.length; i < len; i++) {
-          if (productsInStock[i].id === product.id) {
-            productsInStock[i].quantityToAdd = product.quantityToAdd;
-            productsInStock[i].quantityAdded = parseInt(product.quantityAdded) + parseInt(product.quantityToAdd);
-            productsInStock[i].quantity = product.quantity - parseInt(product.quantityToAdd);
-            found = true;
-            break;
-          }
-        }
-        if (!found) {
-          productsInStock.push(product);
-        }
+        validateProductsExistenceInStock(productsInStock, product);
       } else {
         productsInStock = [];
         productsInStock.push(product);
@@ -94,15 +81,43 @@ angular.module('elBaratonApp')
       product.quantityAdded = product.quantityAdded + parseInt(product.quantityToAdd);
       product.quantity = product.quantity - parseInt(product.quantityToAdd);
       product.quantityToAdd = 0;
+      updateProductInfo(product);
+
+      buildQuantityFilter();
 
       StorageService.save(productsInStock, PRODUCTS_STOCK);
       $rootScope.$broadcast(PRODUCTS_STOCK, productsInStock);
       Notification.success("El producto ha sido agregado al carro de compras con éxito");
     }
 
+    function updateProductInfo(product){
+      var productFound = ProductService.findProductById(initialProducts, product.id);
+      if (!!productFound) {
+        productFound.quantityAdded = product.quantityAdded;
+        productFound.quantity = product.quantity;
+        productFound.quantityToAdd = 0;
+      } 
+    }
+
     function sortBy(propertyName) {
       vm.reverse = (vm.propertyName === propertyName) ? !vm.reverse : false;
       vm.propertyName = propertyName;
+    }
+
+    function validateProductsExistenceInStock(productsInStock, product){
+      var found = false;
+      for (var i = 0, len = productsInStock.length; i < len; i++) {
+        if (productsInStock[i].id === product.id) {
+          productsInStock[i].quantityToAdd = product.quantityToAdd;
+          productsInStock[i].quantityAdded = parseInt(product.quantityAdded) + parseInt(product.quantityToAdd);
+          productsInStock[i].quantity = product.quantity - parseInt(product.quantityToAdd);
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        productsInStock.push(product);
+      }
     }
 
     function main() {
@@ -117,44 +132,84 @@ angular.module('elBaratonApp')
       vm.categoryName = productsByCategory.parentLevel.name + " " + productsByCategory.category.name;
 
       obtainProductsInShoppingCar();
-      calculateFilters();
+      mergeWithProductsInStock();
+      buildQuantityFilter();
     }
 
     function obtainProductsInShoppingCar() {
       var productsInStock = StorageService.get(PRODUCTS_STOCK);
       if (!!productsInStock) {
-        vm.myShoppingCar = productsInStock;
+        myShoppingCar = productsInStock;
       }
     }
 
-    function calculateFilters() {
+    function mergeWithProductsInStock() {
+      for (var i = 0, len = vm.products.length; i < len; i++) {
+        vm.products[i].quantityToAdd = 0;
+        vm.products[i].initialQuantity = vm.products[i].quantity;
+
+        var productFound = ProductService.findProductById(myShoppingCar, vm.products[i].id);
+        if (!!productFound) {
+          vm.products[i].quantityAdded = productFound.quantityAdded;
+          vm.products[i].quantity = productFound.quantity;
+        } else {
+          vm.products[i].quantityAdded = 0;
+          vm.products[i].quantity = vm.products[i].initialQuantity;
+        }
+      }
+    }
+
+    function buildQuantityFilter(){
       vm.listQuantity = [{
         value: "",
         description: "Todos"
       }];
-      angular.forEach(vm.products, function (product) {
-        product.quantityToAdd = 0;
-        product.initialQuantity = product.quantity;
 
-        var productFound = ProductService.findProductById(vm.myShoppingCar, product.id);
-        if (!!productFound) {
-          product.quantityAdded = productFound.quantityAdded;
-          product.quantity = productFound.quantity;
-        } else {
-          product.quantityAdded = 0;
-          product.quantity = product.initialQuantity;
+      for (var i = 0, len = vm.products.length; i < len; i++) {
+        if(vm.products[i].quantity > 0){
+          var quantity = {
+            value: vm.products[i].quantity,
+            description: vm.products[i].quantity
+          };
+          vm.listQuantity.push(quantity);
         }
+      }
+    }
 
-        var quantity = {
-          value: product.quantity,
-          description: product.quantity
-        };
-        vm.listQuantity.push(quantity);
+    function filterByPrice() {
+      if(isNaN(vm.minPrice) || isNaN(vm.maxPrice)){
+        Notification.warning("Debe ingresar precios válidos para aplicar los precios");
+        return;
+      }
+      if(vm.minPrice <= 0 || vm.maxPrice <= 0){
+        Notification.warning("Los precios no puede menores o iguales a cero");
+        return;
+      }
+      if(vm.minPrice >= vm.maxPrice){
+        Notification.warning("El precio mínimo no puede ser mayor o igual al precio máximo");
+        return;
+      }
+      initialProducts = angular.copy(vm.products);
+      var filteredProducts = filterProductsByPrice(vm.products);
+      vm.products = filteredProducts;
+      vm.priceFilterUsed = true;
+    }
+
+    function filterProductsByPrice(products){
+      return products.filter(function(product) {
+        var price = product.price.replace("$", "");
+        price = price.replace(",", "");
+        price = parseFloat(price);
+        return price >= vm.minPrice && price <= vm.maxPrice;
       });
     }
 
-    function filterByPrice(val) {
-      return val.price > vm.minPrice && val.price < vm.MaxPrice;
+    function showActions(product){
+      return product.available && product.quantity > 0;
+    }
+
+    function showSoldOut(product){
+      return product.available && product.quantity == 0;
     }
 
     main();
