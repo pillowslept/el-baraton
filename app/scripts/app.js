@@ -29,7 +29,8 @@ angular
       verticalSpacing: 20,
       horizontalSpacing: 20,
       positionX: 'right',
-      positionY: 'top'
+      positionY: 'top',
+      replaceMessage : true
   });
 
     $routeProvider
@@ -55,6 +56,8 @@ angular
         controllerAs: "vm"
       })
       .otherwise({
-        redirectTo: '/'
+        templateUrl: 'scripts/controllers/not-found/not-found.html',
+        controller: 'NotFoundCtrl',
+        controllerAs: "vm"
       });
   });
