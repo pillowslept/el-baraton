@@ -9,6 +9,14 @@
 * HTML
 * CSS
 
+### Prerequisitos de uso
+
+* Git
+
+* Bower
+
+* NodeJS
+
 ### Instrucciones de uso
 
 * Clonar el proyecto
@@ -23,7 +31,7 @@
 
 * Navegar en un explorador web a http://localhost:9000/
 
-### Generado con
+### Creación y generación
 
 El proyecto fue generado usando [yo angular generator](https://github.com/yeoman/generator-angular)
 version 0.16.0.
