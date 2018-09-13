@@ -6,6 +6,7 @@
 * AngularJS
 * Bower
 * NodeJS
+* Grunt
 * HTML
 * CSS
 
@@ -15,13 +16,15 @@
 
 * Bower
 
+* Grunt cli
+
 * NodeJS
 
 ### Instrucciones de uso
 
 * Clonar el proyecto
 
-* Abrir una consola en la raíz de la carpeta
+* Abrir una consola en la raíz de la carpeta el-baraton
 
 * Ejecutar comando npm install
 
