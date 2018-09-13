@@ -79,7 +79,7 @@ angular.module('elBaratonApp')
         productsInStock.push(product);
       }
 
-      product.quantityAdded = product.quantityAdded + parseInt(product.quantityToAdd);
+      product.quantityAdded = parseInt(product.quantityAdded) + parseInt(product.quantityToAdd);
       product.quantity = product.quantity - parseInt(product.quantityToAdd);
       product.quantityToAdd = 0;
       updateProductInfo(product);
@@ -198,9 +198,7 @@ angular.module('elBaratonApp')
 
     function filterProductsByPrice(products){
       return products.filter(function(product) {
-        var price = product.price.replace("$", "");
-        price = price.replace(",", "");
-        price = parseFloat(price);
+        var price = ProductService.getProductPrice(product);
         return price >= vm.minPrice && price <= vm.maxPrice;
       });
     }

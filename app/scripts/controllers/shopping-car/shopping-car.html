@@ -6,7 +6,7 @@
   <hr>
 
   <div class="form-group col-md-12" ng-show="vm.myShoppingCar.length > 0">
-    <span class="badge badge-info pull-right">Productos {{vm.myShoppingCar.length}}</span>
+    <span class="badge badge-info pull-right">Productos: {{vm.myShoppingCar.length}}</span>
   </div>
 
   <div class="alert alert-info" ng-show="vm.myShoppingCar.length == 0">
@@ -35,12 +35,18 @@
           <input ng-if="product.available" type="text" ng-model="product.quantityToAdd" class="text-center form-control" placeholder="Cantidad">
         </td>
         <td>
-          <span title="Actualizar producto" ng-click="vm.updateQuantity(product)" class="pointer glyphicon glyphicon-refresh shopping-icon text-success"></span>
-          <span title="Eliminar producto" ng-click="vm.deleteFromShoppingCar(product)" class="pointer glyphicon glyphicon-remove shopping-icon text-danger"></span>
+          <span uib-tooltip="Actualizar producto" ng-click="vm.updateQuantity(product)" class="pointer glyphicon glyphicon-refresh shopping-icon text-success"></span>
+          <span uib-tooltip="Eliminar producto" ng-click="vm.deleteFromShoppingCar(product)" class="pointer glyphicon glyphicon-remove shopping-icon text-danger"></span>
         </td>
       </tr>
     </tbody>
   </table>
+
+  <div class="form-group col-md-12" ng-show="vm.myShoppingCar.length > 0">
+    <span class="badge badge-info pull-right shopping-car-color">Precio total: {{vm.totalPrice | currency}}</span>
+  </div>
+  <hr>
+  
   <button ng-show="vm.myShoppingCar.length > 0" ng-click="vm.finishShopping()" type="button" class="btn btn-success btn-lg btn-block">Realizar compra
     <span class="glyphicon glyphicon-ok"></span>
   </button>

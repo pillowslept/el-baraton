@@ -15,7 +15,7 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title text-right pointer" data-toggle="collapse" data-parent="#accordion" data-target="#collapseOne">
-          Ver más filtros
+          Ver más filtros <span class="glyphicon glyphicon-search"></span>
         </h4>
       </div>
       <div id="collapseOne" class="panel-collapse collapse panel-color">
@@ -93,8 +93,8 @@
           <input ng-if="vm.showActions(product)" type="number" ng-model="product.quantityToAdd" class="text-center form-control" placeholder="Cantidad">
         </td>
         <td>
-          <span title="Agregar al carrito" ng-if="vm.showActions(product)" ng-click="vm.addToShoppingCar(product)" class="pointer glyphicon glyphicon-shopping-cart shopping-icon"></span>
-          <span ng-if="product.available" title="Cantidad agregada" class="badge badge-info pull-right total-in-car">{{product.quantityAdded}}</span>
+          <span uib-tooltip="Agregar al carrito" ng-if="vm.showActions(product)" ng-click="vm.addToShoppingCar(product)" class="pointer glyphicon glyphicon-shopping-cart shopping-icon"></span>
+          <span uib-tooltip="Cantidad agregada" ng-if="product.available" class="badge badge-info pull-right total-in-car">{{product.quantityAdded}}</span>
         </td>
       </tr>
     </tbody>

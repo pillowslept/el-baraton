@@ -104,3 +104,7 @@ button:disabled,
 button[disabled]{
   background-color: #5cb85c !important;
 }
+
+.shopping-car-color{
+  background-color: #3c763d;
+}

@@ -10,7 +10,7 @@ var PRODUCTS_STOCK = 'productsInStock';
  * Controller of the elBaratonApp
  */
 angular.module('elBaratonApp')
-  .controller('ShoppingCarCtrl', function ($location, $rootScope, DataService, StorageService, Notification) {
+  .controller('ShoppingCarCtrl', function ($location, $rootScope, ProductService, StorageService, Notification) {
     var vm = this;
 
     //Functions
@@ -21,6 +21,7 @@ angular.module('elBaratonApp')
 
     //Shopping Car
     vm.myShoppingCar = [];
+    vm.totalPrice = 0;
 
     function updateQuantity(product){
       if(!product.quantityToAdd || !product.initialQuantity || isNaN(product.quantityToAdd)){
@@ -39,6 +40,7 @@ angular.module('elBaratonApp')
       product.quantityAdded = product.quantityToAdd;
 
       StorageService.save(vm.myShoppingCar, PRODUCTS_STOCK);
+      vm.totalPrice = ProductService.calculateTotalPriceFromProducts(vm.myShoppingCar);
       Notification.success("El producto ha sido actualizado con éxito");
     }
 
@@ -49,23 +51,30 @@ angular.module('elBaratonApp')
       }
       StorageService.save(vm.myShoppingCar, PRODUCTS_STOCK);
       $rootScope.$broadcast(PRODUCTS_STOCK, vm.myShoppingCar);
+      vm.totalPrice = ProductService.calculateTotalPriceFromProducts(vm.myShoppingCar);
       Notification.success("El producto ha sido eliminado con éxito");
     }
 
     function finishShopping(){
-      vm.myShoppingCar = [];
-      StorageService.clear();
-      $rootScope.$broadcast(PRODUCTS_STOCK, vm.myShoppingCar);
+      clearShoppingCar();
       $location.path("successful-purchase");
       Notification.success("La compra se ha realizado con éxito");
     }
 
     function discardShopping(){
+      clearShoppingCar();
+      $location.path("/");
+      Notification.success("Los productos han sido descartados con éxito");
+    }
+
+    function clearShoppingCar(){
       vm.myShoppingCar = [];
       StorageService.clear();
       $rootScope.$broadcast(PRODUCTS_STOCK, vm.myShoppingCar);
-      $location.path("/");
-      Notification.success("Los productos han sido descartados con éxito");
+    }
+
+    function calculateTotalPrice(){
+      ProductService.getProductPrice();
     }
 
     function main(){
@@ -75,6 +84,7 @@ angular.module('elBaratonApp')
         angular.forEach(vm.myShoppingCar, function(product) {
           product.quantityToAdd = product.quantityAdded;
         });
+        vm.totalPrice = ProductService.calculateTotalPriceFromProducts(vm.myShoppingCar);
       }
     }
 
