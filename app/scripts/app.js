@@ -18,7 +18,8 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'ui-notification'
+    'ui-notification',
+    'ui.bootstrap'
   ])
   .config(function ($routeProvider, NotificationProvider) {
     NotificationProvider.setOptions({
