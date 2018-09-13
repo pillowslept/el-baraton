@@ -38,6 +38,7 @@ angular.module('elBaratonApp')
       });
       DataService.loadFromJson(PRODUCTS_JSON).then(function (response) {
         allProducts = response.data.products;
+        ProductService.updateProductsPrice(allProducts);
       });
 
       validateProductsInStock(StorageService.get(PRODUCTS_STOCK));

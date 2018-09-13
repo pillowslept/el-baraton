@@ -20,7 +20,7 @@
                     <li class="dropdown" ng-repeat="category in vm.itemsMenu">
                         <a class="pointer dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             {{category.name}}
-                            <span class="caret"></span>
+                            <span class="glyphicon glyphicon-chevron-down"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="dropdown-submenu" ng-repeat="sublevel in category.sublevels">
@@ -29,7 +29,7 @@
                                     {{sublevel.name}}
                                 </a>
                                 <a ng-if="sublevel.sublevels.length > 0" class="pointer drop-sub-menu">{{sublevel.name}}
-                                    <span class="caret"></span>
+                                    <span class="glyphicon glyphicon-chevron-down"></span>
                                 </a>
                                 <ul class="dropdown-menu" ng-if="sublevel.sublevels.length > 0">
                                     <li ng-repeat="level in sublevel.sublevels">

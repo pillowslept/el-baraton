@@ -77,13 +77,13 @@
           <span ng-click="vm.sortBy('available')" class="pointer">Disponible</span>
           <span ng-show="vm.propertyName == 'available'" class="glyphicon" ng-class="vm.reverse ? 'glyphicon-chevron-down' : 'glyphicon-chevron-up'"></span>
         </th>
-        <th width="30%" colspan="2" scope="col">Acciones</th>
+        <th width="30%" colspan="2" scope="col">Acciones <span class="glyphicon glyphicon-align-center"></span></th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat="product in vm.products | orderBy:vm.propertyName:vm.reverse | filter:{quantity: vm.filterByQuantity, available: vm.filterByAvailable, price : vm.filterByPrice, name : vm.filterByName}">
         <td>{{product.name}}</td>
-        <td>{{product.price}}</td>
+        <td>{{product.price | currency}}</td>
         <td>{{product.quantity}}</td>
         <td>
           {{vm.isProductAvailable(product)}}

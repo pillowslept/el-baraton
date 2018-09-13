@@ -18,6 +18,7 @@ angular.module('elBaratonApp')
     vm.findProductById = findProductById;
     vm.getProductPrice = getProductPrice;
     vm.calculateTotalPriceFromProducts = calculateTotalPriceFromProducts;
+    vm.updateProductsPrice = updateProductsPrice;
 
     function setProducts(categoryAndProducts) {
       productsByCategory = categoryAndProducts;
@@ -48,8 +49,14 @@ angular.module('elBaratonApp')
     function calculateTotalPriceFromProducts(products){
       var totalPrice = 0;
       for (var i = 0, len = products.length; i < len; i++) {
-        totalPrice = totalPrice + (getProductPrice(products[i]) * products[i].quantityAdded);
+        totalPrice = totalPrice + (products[i].price * products[i].quantityAdded);
       }
       return totalPrice;
+    }
+
+    function updateProductsPrice(products){
+      for (var i = 0, len = products.length; i < len; i++) {
+        products[i].price = getProductPrice(products[i]);
+      }
     }
   });

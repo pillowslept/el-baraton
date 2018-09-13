@@ -21,13 +21,13 @@
         <th scope="col">Cantidad total</th>
         <th scope="col">Cantidad disponible</th>
         <th scope="col">Agregados</th>
-        <th width="30%" colspan="2" scope="col">Acciones</th>
+        <th width="30%" colspan="2" scope="col">Acciones <span class="glyphicon glyphicon-align-center"></span></th>
       </tr>
     </thead>
     <tbody>
       <tr ng-repeat="product in vm.myShoppingCar">
         <td>{{product.name}}</td>
-        <td>{{product.price}}</td>
+        <td>{{product.price | currency}}</td>
         <td>{{product.initialQuantity}}</td>
         <td>{{product.quantity}}</td>
         <td>{{product.quantityAdded}}</td>

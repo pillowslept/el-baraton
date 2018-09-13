@@ -32,7 +32,7 @@ angular.module('elBaratonApp')
 
     //Order by property
     vm.reverse = false;
-    vm.propertyName = "";
+    vm.propertyName = "price";
 
     //Products information
     vm.products = [];
@@ -198,8 +198,7 @@ angular.module('elBaratonApp')
 
     function filterProductsByPrice(products){
       return products.filter(function(product) {
-        var price = ProductService.getProductPrice(product);
-        return price >= vm.minPrice && price <= vm.maxPrice;
+        return product.price >= vm.minPrice && product.price <= vm.maxPrice;
       });
     }
 
