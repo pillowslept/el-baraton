@@ -17,7 +17,7 @@ describe('Controller: MainCtrl', function () {
     });
   }));
 
-  it('should attach a list of awesomeThings to the scope', function () {
-    expect(MainCtrl.awesomeThings.length).toBe(3);
+  it('Debería validar el mensaje a mostrar en el controlador', function () {
+    expect(MainCtrl.message).toBe('Gracias por elegirnos');
   });
 });
